@@ -1,9 +1,15 @@
 package restricted
 
 import (
+	"flag"
 	"fmt"
 
 	"golang.org/x/exp/constraints"
+)
+
+var (
+	_ flag.Value = (*Number[int])(nil)
+	_ flag.Value = (*String)(nil)
 )
 
 type Number[T constraints.Integer | constraints.Float] struct {
