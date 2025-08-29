@@ -12,12 +12,12 @@ type Number[T constraints.Integer | constraints.Float] struct {
 	max   T
 }
 
-func NewNumber[T constraints.Integer | constraints.Float](min, max T) *Number[T] {
+func NewNumber[T constraints.Integer | constraints.Float](value, min, max T) *Number[T] {
 	if min > max {
 		min, max = max, min
 	}
 	return &Number[T]{
-		value: min,
+		value: value,
 		min:   min,
 		max:   max,
 	}
@@ -49,5 +49,46 @@ func (r *Number[T]) Max() T {
 }
 
 func (r *Number[T]) Get() T {
+	return r.value
+}
+
+type String struct {
+	value string
+	min   int
+	max   int
+}
+
+func NewString(value string, min, max int) *String {
+	if min > max {
+		min, max = max, min
+	}
+	return &String{
+		value: value,
+		min:   min,
+		max:   max,
+	}
+}
+
+func (r *String) String() string {
+	return r.value
+}
+
+func (r *String) Set(s string) error {
+	if len(s) < r.min || len(s) > r.max {
+		return fmt.Errorf("length must be between %v and %v, got: %v", r.min, r.max, len(s))
+	}
+	r.value = s
+	return nil
+}
+
+func (r *String) Min() int {
+	return r.min
+}
+
+func (r *String) Max() int {
+	return r.max
+}
+
+func (r *String) Get() string {
 	return r.value
 }
